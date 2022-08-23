@@ -5,6 +5,7 @@ import Filter from './Filter';
 import ContactList from './ContactList';
 import Notification from './Notification';
 import styled from 'styled-components';
+import { save, load } from '../utilities/json';
 
 const Center = styled.div`
   position: relative;
@@ -42,10 +43,9 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const contacts = localStorage.getItem('contacts');
-    const parsedContacts = JSON.parse(contacts);
-    if (parsedContacts) {
-      this.setState({ contacts: parsedContacts });
+    const contacts = load('contacts');
+    if (contacts) {
+      this.setState({ contacts: contacts });
     }
   }
 
@@ -53,7 +53,7 @@ class App extends Component {
     const nextContacts = this.state.contacts;
     const prevContacts = prevState.contacts;
     if (nextContacts !== prevContacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+      save('contacts', nextContacts);
     }
   }
 
