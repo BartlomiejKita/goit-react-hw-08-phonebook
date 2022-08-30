@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useReducer } from 'react';
 import styled from 'styled-components';
 
 const Inputbox = styled.div`
@@ -71,80 +71,97 @@ const Btn = styled.button`
   }
 `;
 
-const INITIAL_STATE = {
+const initialValue = {
   name: '',
   number: '',
 };
 
-class ContactForm extends Component {
-  state = { ...INITIAL_STATE };
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'textInput':
+      return { ...state, [action.payload.key]: action.payload.value };
+    case 'reset':
+      return initialValue;
 
-  handleSubmit = evt => {
+    default:
+      throw new Error();
+  }
+};
+
+const ContactForm = ({ contacts, addContact }) => {
+  const [state, dispatch] = useReducer(reducer, initialValue);
+
+  const handleSubmit = evt => {
+    
     evt.preventDefault();
 
-    for (const contact of this.props.state.contacts) {
-      if (contact.name === this.state.name)
+    for (const contact of contacts) {
+      if (contact.name === state.name)
         return alert(
           `${contact.name} is already in your contacts with the phone number ${contact.number}`
         );
 
-      if (contact.number === this.state.number)
+      if (contact.number === state.number)
         return alert(
           `${contact.number} is already in your contacts with the name ${contact.name}`
         );
     }
 
-    this.props.addContact(this.state);
-    this.setState({ ...INITIAL_STATE });
+    addContact(state);
+    (() => {
+      dispatch({
+        type: 'reset',
+      });
+    })();
   };
 
-  handleChange = evt => {
-    const { name, value } = evt.target;
-    this.setState({ [name]: value });
+  const handleChange = evt => {
+    dispatch({
+      type: 'textInput',
+      payload: { key: evt.target.name, value: evt.target.value },
+    });
   };
 
-  render() {
-    const { name, number } = this.state;
+  const { name, number } = state;
 
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <Inputbox>
-          <label>
-            <Input
-              type="text"
-              name="name"
-              pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-              required
-              onChange={this.handleChange}
-              value={name}
-              placeholder=" "
-            />
-            <Span>Name</Span>
-          </label>
-        </Inputbox>
-        <Inputbox>
-          <label>
-            <Input
-              type="tel"
-              name="number"
-              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-              required
-              onChange={this.handleChange}
-              value={number}
-              placeholder=" "
-            />
-            <Span>Number</Span>
-          </label>
-        </Inputbox>
-        <Inputbox>
-          <Btn type="submit">Add contact</Btn>
-        </Inputbox>
-      </form>
-    );
-  }
-}
+  return (
+    <form onSubmit={handleSubmit}>
+      <Inputbox>
+        <label>
+          <Input
+            type="text"
+            name="name"
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            required
+            onChange={handleChange}
+            value={name}
+            placeholder=" "
+          />
+          <Span>Name</Span>
+        </label>
+      </Inputbox>
+      <Inputbox>
+        <label>
+          <Input
+            type="tel"
+            name="number"
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+            onChange={handleChange}
+            value={number}
+            placeholder=" "
+          />
+          <Span>Number</Span>
+        </label>
+      </Inputbox>
+      <Inputbox>
+        <Btn type="submit">Add contact</Btn>
+      </Inputbox>
+    </form>
+  );
+};
 
 ContactForm.propTypes = {
   addContacts: PropTypes.func,

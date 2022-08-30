@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { nanoid } from 'nanoid';
 import ContactForm from './ContactForm';
 import Filter from './Filter';
@@ -6,6 +6,7 @@ import ContactList from './ContactList';
 import Notification from './Notification';
 import styled from 'styled-components';
 import { save, load } from '../utilities/json';
+import isEmpty from 'utilities/isEmpty';
 
 const Center = styled.div`
   position: relative;
@@ -36,72 +37,137 @@ const SecondHeader = styled.h2`
   padding-left: 10px;
 `;
 
-class App extends Component {
-  state = {
-    contacts: [],
-    filter: '',
-  };
+const App = () => {
+  const notInitialRender = useRef(false);
 
-  componentDidMount() {
+  const [contacts, setContacts] = useState([]);
+  const [filter, setFilter] = useState('');
+
+  useEffect(() => {
     const contacts = load('contacts');
     if (contacts) {
-      this.setState({ contacts: contacts });
+      setContacts(contacts);
     }
-  }
+  }, []);
 
-  componentDidUpdate(prevProps, prevState) {
-    const nextContacts = this.state.contacts;
-    const prevContacts = prevState.contacts;
-    if (nextContacts !== prevContacts) {
-      save('contacts', nextContacts);
+  useEffect(() => {
+    if (notInitialRender.current) {
+      save('contacts', contacts);
+    } else {
+      notInitialRender.current = true;
     }
-  }
+  }, [contacts]);
 
-  getContacts = () => {
-    const { contacts, filter } = this.state;
+  const getContacts = () => {
     const normalizedFilter = filter.toLocaleLowerCase();
     return contacts
       .filter(contact => contact.name.toLowerCase().includes(normalizedFilter))
       .sort((a, b) => a.name.localeCompare(b.name));
   };
 
-  addContact = ({ name, number }) => {
+  const addContact = ({ name, number }) => {
     const contact = { id: nanoid(), name, number };
-    this.setState(({ contacts }) => ({ contacts: [contact, ...contacts] }));
+    setContacts([contact, ...contacts]);
   };
 
-  handleFilter = evt => {
-    const { value } = evt.target;
-    this.setState({ filter: value });
+  const handleFilter = evt => {
+    setFilter(evt.target.value);
   };
 
-  deleteContact = id => {
-    this.setState(state => ({
-      contacts: state.contacts.filter(contact => contact.id !== id),
-    }));
+  const deleteContact = id => {
+    setContacts(state => state.filter(contact => contact.id !== id));
   };
 
-  render() {
-    return (
-      <>
-        <Center>
-          <MainHeader>Phonebook</MainHeader>
-          <ContactForm addContact={this.addContact} state={this.state} />
+  return (
+    <>
+      <Center>
+        <MainHeader>Phonebook</MainHeader>
+        <ContactForm addContact={addContact} contacts={contacts} />
 
-          <SecondHeader>Contacts</SecondHeader>
-          <Filter onChange={this.handleFilter} />
-          {Object.keys(this.state.contacts).length === 0 ? (
-            <Notification message="There is no contacts to show" />
-          ) : (
-            <ContactList
-              getContacts={this.getContacts}
-              deleteContact={this.deleteContact}
-            />
-          )}
-        </Center>
-      </>
-    );
-  }
-}
+        <SecondHeader>Contacts</SecondHeader>
+        <Filter onChange={handleFilter} />
+        {isEmpty(contacts) ? (
+          <Notification message="There is no contacts to show" />
+        ) : (
+          <ContactList
+            getContacts={getContacts}
+            deleteContact={deleteContact}
+          />
+        )}
+      </Center>
+    </>
+  );
+};
+
+// class App extends Component {
+//   state = {
+//     contacts: [],
+//     filter: '',
+//   };
+
+//   componentDidMount() {
+//     const contacts = load('contacts');
+//     if (contacts) {
+//       this.setState({ contacts: contacts });
+//     }
+//   }
+
+//   componentDidUpdate(prevProps, prevState) {
+//     const nextContacts = this.state.contacts;
+//     const prevContacts = prevState.contacts;
+//     if (nextContacts !== prevContacts) {
+//       save('contacts', nextContacts);
+//     }
+//   }
+
+//   getContacts = () => {
+//     const { contacts, filter } = this.state;
+//     const normalizedFilter = filter.toLocaleLowerCase();
+//     return contacts
+//       .filter(contact => contact.name.toLowerCase().includes(normalizedFilter))
+//       .sort((a, b) => a.name.localeCompare(b.name));
+//   };
+
+//   addContact = ({ name, number }) => {
+//     const contact = { id: nanoid(), name, number };
+//     this.setState(({ contacts }) => ({ contacts: [contact, ...contacts] }));
+//   };
+
+//   handleFilter = evt => {
+//     const { value } = evt.target;
+//     this.setState({ filter: value });
+//   };
+
+//   deleteContact = id => {
+//     this.setState(state => ({
+//       contacts: state.contacts.filter(contact => contact.id !== id),
+//     }));
+//   };
+
+//   render() {
+//     return (
+//       <>
+//         <Center>
+//           <MainHeader>Phonebook</MainHeader>
+//           <ContactForm
+//             addContact={this.addContact}
+//             contacts={this.state.contacts}
+//           />
+
+//           <SecondHeader>Contacts</SecondHeader>
+//           <Filter onChange={this.handleFilter} />
+//           {Object.keys(this.state.contacts).length === 0 ? (
+//             <Notification message="There is no contacts to show" />
+//           ) : (
+//             <ContactList
+//               getContacts={this.getContacts}
+//               deleteContact={this.deleteContact}
+//             />
+//           )}
+//         </Center>
+//       </>
+//     );
+//   }
+// }
 
 export default App;
