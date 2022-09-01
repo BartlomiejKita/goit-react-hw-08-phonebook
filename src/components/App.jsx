@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 import ContactForm from './ContactForm';
 import Filter from './Filter';
@@ -38,9 +38,8 @@ const SecondHeader = styled.h2`
 `;
 
 const App = () => {
-  const notInitialRender = useRef(false);
 
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(load('contacts') || []);
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
@@ -51,12 +50,8 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (notInitialRender.current) {
-      save('contacts', contacts);
-    } else {
-      notInitialRender.current = true;
-    }
-  }, [contacts]);
+    save('contacts', contacts);
+     }, [contacts]);
 
   const getContacts = () => {
     const normalizedFilter = filter.toLocaleLowerCase();
