@@ -1,5 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { addContact, deleteContact, filterContacts } from './Actions';
+import { combineReducers } from 'redux';
+
 
 const initialState = {
   items: [],
@@ -23,7 +25,12 @@ const filterReducer = createReducer(initialState.filter, builder => {
   });
 });
 
-export { contactsReducer, filterReducer };
+export default combineReducers({
+  contacts: contactsReducer,
+  filter: filterReducer,
+});
+
+
 
 
 
