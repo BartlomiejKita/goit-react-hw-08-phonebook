@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
-import { useReducer } from 'react';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from './redux/Actions';
 
 const Inputbox = styled.div`
   position: relative;
@@ -71,58 +71,32 @@ const Btn = styled.button`
   }
 `;
 
-const initialValue = {
-  name: '',
-  number: '',
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'textInput':
-      return { ...state, [action.payload.key]: action.payload.value };
-    case 'reset':
-      return initialValue;
-
-    default:
-      throw new Error();
-  }
-};
-
-const ContactForm = ({ contacts, addContact }) => {
-  const [state, dispatch] = useReducer(reducer, initialValue);
+const ContactForm = () => {
+  const dispatch = useDispatch();
+  const state = useSelector(state => state.contacts);
 
   const handleSubmit = evt => {
-    
+    const form = evt.target;
+    const name = form.name.value;
+    const number = form.number.value;
+
     evt.preventDefault();
 
-    for (const contact of contacts) {
-      if (contact.name === state.name)
+    for (const contact of state) {
+      if (contact.name === name)
         return alert(
-          `${contact.name} is already in your contacts with the phone number ${contact.number}`
+          `${name} is already in your contacts with the phone number ${contact.number}`
         );
 
-      if (contact.number === state.number)
+      if (contact.number === number)
         return alert(
-          `${contact.number} is already in your contacts with the name ${contact.name}`
+          `${number} is already in your contacts with the name ${contact.name}`
         );
     }
 
-    addContact(state);
-    (() => {
-      dispatch({
-        type: 'reset',
-      });
-    })();
+    dispatch(addContact({ name, number }));
+    form.reset();
   };
-
-  const handleChange = evt => {
-    dispatch({
-      type: 'textInput',
-      payload: { key: evt.target.name, value: evt.target.value },
-    });
-  };
-
-  const { name, number } = state;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -134,8 +108,6 @@ const ContactForm = ({ contacts, addContact }) => {
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
-            onChange={handleChange}
-            value={name}
             placeholder=" "
           />
           <Span>Name</Span>
@@ -149,8 +121,6 @@ const ContactForm = ({ contacts, addContact }) => {
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
-            onChange={handleChange}
-            value={number}
             placeholder=" "
           />
           <Span>Number</Span>
@@ -161,10 +131,6 @@ const ContactForm = ({ contacts, addContact }) => {
       </Inputbox>
     </form>
   );
-};
-
-ContactForm.propTypes = {
-  addContacts: PropTypes.func,
 };
 
 export default ContactForm;

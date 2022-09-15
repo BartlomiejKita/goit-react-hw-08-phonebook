@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContact } from './redux/Actions';
 
 const List = styled.li`
   &::before {
@@ -35,15 +36,28 @@ const ElementWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
-const ContactList = ({ getContacts, deleteContact }) => {
+const getVisibleContacts = (contacts, filter) => {
+  const normalizedFilter = filter.toLowerCase().trim();
+
+  return contacts
+    .filter(contact => contact.name.toLowerCase().includes(normalizedFilter))
+    .sort((a, b) => a.name.localeCompare(b.name));
+};
+
+const ContactList = () => {
+  const state = useSelector(({ contacts, filter }) =>
+    getVisibleContacts(contacts, filter)
+  );
+  const dispatch = useDispatch();
+
   return (
     <ul>
-      {getContacts().map(({ id, name, number }) => (
-        <ElementWrapper key={'el'+id}>
+      {state.map(({ id, name, number }) => (
+        <ElementWrapper key={'el' + id}>
           <List key={id}>
             {name}: {number}
           </List>
-          <Btn key={'btn'+id} onClick={() => deleteContact(id)}>
+          <Btn key={'btn' + id} onClick={() => dispatch(deleteContact(id))}>
             Delete
           </Btn>
         </ElementWrapper>
@@ -52,8 +66,5 @@ const ContactList = ({ getContacts, deleteContact }) => {
   );
 };
 
-ContactList.propTypes = {
-  getContacts: PropTypes.func,
-};
 
 export default ContactList;

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Message = styled.p`
@@ -6,16 +5,14 @@ const Message = styled.p`
   font-family: sans-serif;
 `;
 
-const Notification = ({ message }) => {
+const Notification = () => {
   return (
     <>
-      <Message>{message}</Message>
+      <Message>There is no contacts to show</Message>
     </>
   );
 };
 
-Notification.propTypes = {
-  title: PropTypes.string,
-};
+
 
 export default Notification;

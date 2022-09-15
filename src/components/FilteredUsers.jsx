@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { filterContacts } from './redux/Actions';
 
 const Filterbox = styled.div`
   position: relative;
@@ -41,19 +42,26 @@ const Span = styled.span`
   font-family: sans-serif;
 `;
 
-const Filter = ({ onChange }) => {
+const FilteredUsers = () => {
+  const filter = useSelector(state => state.filter);
+  const dispatch = useDispatch();
+  const onFilter = e => {
+    dispatch(filterContacts(e.target.value));
+  };
   return (
     <Filterbox>
       <label>
-        <Input type="text" name="filter" onChange={onChange} placeholder=" " />
+        <Input
+          onChange={onFilter}
+          type="text"
+          value={filter}
+          name="filter"
+          placeholder=" "
+        />
         <Span>Find contacts by name</Span>
       </label>
     </Filterbox>
   );
 };
 
-Filter.propTypes = {
-  onChange: PropTypes.func,
-};
-
-export default Filter;
+export default FilteredUsers;
