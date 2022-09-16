@@ -25,8 +25,6 @@
 
 - styled components
 
-- propTypes
-
 - configureStore(), createAction(), createReducer() 
 
  
