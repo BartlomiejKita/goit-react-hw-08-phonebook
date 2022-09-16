@@ -3,7 +3,7 @@
 
 ## General info
 
-:boom: An application to store contacts in the phone book. It is refactoring of HW 04 by using react hooks.
+:boom: An application to store contacts in the phone book. It is refactoring of HW 04 by using redux.
 
 
 ## Technologies
@@ -32,3 +32,4 @@
  
 ### Criteria
 [criteria](https://github.com/goitacademy/react-homework/blob/master/homework-06/README.pl.md )
+
