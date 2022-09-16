@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from './redux/Actions';
+import { useMemo } from 'react';
+
 
 const List = styled.li`
   &::before {
@@ -36,23 +38,22 @@ const ElementWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
-const getVisibleContacts = (contacts, filter) => {
+const ContactList = () => {
+  const contacts = useSelector(state => state.contacts);
+  const filter = useSelector(state => state.filter);
   const normalizedFilter = filter.toLowerCase().trim();
 
-  return contacts
-    .filter(contact => contact.name.toLowerCase().includes(normalizedFilter))
-    .sort((a, b) => a.name.localeCompare(b.name));
-};
-
-const ContactList = () => {
-  const state = useSelector(({ contacts, filter }) =>
-    getVisibleContacts(contacts, filter)
+  const filteredContacts = useMemo(() =>
+    contacts
+      .filter(contact => contact.name.toLowerCase().includes(normalizedFilter))
+      .sort((a, b) => a.name.localeCompare(b.name)), [normalizedFilter, contacts]
   );
+
   const dispatch = useDispatch();
 
   return (
     <ul>
-      {state.map(({ id, name, number }) => (
+      {filteredContacts.map(({ id, name, number }) => (
         <ElementWrapper key={'el' + id}>
           <List key={id}>
             {name}: {number}
@@ -65,6 +66,7 @@ const ContactList = () => {
     </ul>
   );
 };
+
 
 
 export default ContactList;
