@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from './redux/Actions';
 import { useMemo } from 'react';
 
-
 const List = styled.li`
   &::before {
     content: '•';
@@ -43,10 +42,14 @@ const ContactList = () => {
   const filter = useSelector(state => state.filter);
   const normalizedFilter = filter.toLowerCase().trim();
 
-  const filteredContacts = useMemo(() =>
-    contacts
-      .filter(contact => contact.name.toLowerCase().includes(normalizedFilter))
-      .sort((a, b) => a.name.localeCompare(b.name)), [normalizedFilter, contacts]
+  const filteredContacts = useMemo(
+    () =>
+      contacts
+        .filter(contact =>
+          contact.name.toLowerCase().includes(normalizedFilter)
+        )
+        .sort((a, b) => a.name.localeCompare(b.name)),
+    [normalizedFilter, contacts]
   );
 
   const dispatch = useDispatch();
@@ -66,7 +69,5 @@ const ContactList = () => {
     </ul>
   );
 };
-
-
 
 export default ContactList;
