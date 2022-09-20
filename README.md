@@ -1,9 +1,9 @@
-# HW 06
+# HW 07
 
 
 ## General info
 
-:boom: An application to store contacts in the phone book. It is refactoring of HW 04 by using redux.
+:boom: An application to store contacts in the phone book. It is refactoring of HW 06 by using RTK Query.
 
 
 ## Technologies
@@ -21,7 +21,7 @@
 
 - ![Redux Toolkit](https://badges.aleen42.com/src/redux.svg )
 
-- React-redux, redux-persist
+- React-redux, RTK Query
 
 - styled components
 
@@ -29,5 +29,5 @@
 
  
 ### Criteria
-[criteria](https://github.com/goitacademy/react-homework/blob/master/homework-06/README.pl.md )
+[criteria](https://github.com/goitacademy/react-homework/blob/master/homework-07/README.pl.md )
 
