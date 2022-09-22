@@ -63,7 +63,6 @@ const App = () => {
       <Center>
         <MainHeader>Phonebook</MainHeader>
         <ContactForm contacts={contacts} />
-
         <SecondHeader>Contacts</SecondHeader>
         <FilteredUsers />
         {content}

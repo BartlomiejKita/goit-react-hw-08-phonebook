@@ -10,4 +10,3 @@ export const store = configureStore({
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(phonebookApi.middleware),
 });
-

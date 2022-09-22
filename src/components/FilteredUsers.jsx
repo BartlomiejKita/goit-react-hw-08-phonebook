@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { filterContacts } from './redux/Actions';
 
-
 const Filterbox = styled.div`
   position: relative;
   width: 300px;
@@ -64,7 +63,5 @@ const FilteredUsers = () => {
     </Filterbox>
   );
 };
-
-
 
 export default FilteredUsers;
