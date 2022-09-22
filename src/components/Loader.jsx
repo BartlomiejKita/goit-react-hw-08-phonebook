@@ -11,7 +11,7 @@ const Loader = () => {
       <Circles
         height="100"
         width="100"
-        color="#3f51b5"
+        color="dodgerblue"
         ariaLabel="circles-loading"
         wrapperStyle={{}}
         wrapperClass=""
