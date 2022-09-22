@@ -44,7 +44,7 @@ const Span = styled.span`
 `;
 
 const FilteredUsers = () => {
-  const filter = useSelector(state => state.filter);
+  const filter = useSelector(state => state.filter.filter);
   const dispatch = useDispatch();
   const onFilter = e => {
     dispatch(filterContacts(e.target.value));

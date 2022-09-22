@@ -1,12 +1,14 @@
 import ContactForm from './ContactForm';
 import FilteredUsers from './FilteredUsers';
 import ContactList from './ContactList';
-import Notification from './Notification';
 import styled from 'styled-components';
+import { useGetContactsQuery } from 'services/phonebookApi';
+import Notification from './Notification';
 import isEmpty from 'utilities/isEmpty';
-import { useSelector } from 'react-redux';
+import Loader from './Loader';
 
 const Center = styled.div`
+  margin-top: 50px;
   position: relative;
   padding: 50px 50px;
   background: #fff;
@@ -36,21 +38,35 @@ const SecondHeader = styled.h2`
 `;
 
 const App = () => {
-  const state = useSelector(state => state.contacts);
+  const {
+    data: contacts,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetContactsQuery();
+
+  let content;
+
+  if (isLoading) {
+    content = <Loader />;
+  } else if (isSuccess && !isEmpty(contacts)) {
+    content = <ContactList contacts={contacts} />;
+  } else if (isSuccess && isEmpty(contacts)) {
+    content = <Notification />;
+  } else if (isError) {
+    content = <div>{error.toString()}</div>;
+  }
 
   return (
     <>
       <Center>
         <MainHeader>Phonebook</MainHeader>
-        <ContactForm />
+        <ContactForm contacts={contacts} />
 
         <SecondHeader>Contacts</SecondHeader>
         <FilteredUsers />
-        {isEmpty(state) ? (
-          <Notification message="There is no contacts to show" />
-        ) : (
-          <ContactList />
-        )}
+        {content}
       </Center>
     </>
   );

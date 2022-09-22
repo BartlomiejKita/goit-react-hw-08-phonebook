@@ -1,9 +1,10 @@
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact } from './redux/Actions';
+import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
+import { useDeleteContactMutation } from 'services/phonebookApi';
 
 const List = styled.li`
+  display: flex;
   &::before {
     content: '•';
     color: dodgerblue;
@@ -37,8 +38,7 @@ const ElementWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
-const ContactList = () => {
-  const contacts = useSelector(state => state.contacts);
+const ContactList = ({ contacts }) => {
   const filter = useSelector(state => state.filter);
   const normalizedFilter = filter.toLowerCase().trim();
 
@@ -52,16 +52,18 @@ const ContactList = () => {
     [normalizedFilter, contacts]
   );
 
-  const dispatch = useDispatch();
+  const [deleteContact] = useDeleteContactMutation();
 
   return (
     <ul>
-      {filteredContacts.map(({ id, name, number }) => (
+      {filteredContacts.map(({ id, name, phone }) => (
         <ElementWrapper key={'el' + id}>
           <List key={id}>
-            {name}: {number}
+            {name}
+            <br />
+            {phone}
           </List>
-          <Btn key={'btn' + id} onClick={() => dispatch(deleteContact(id))}>
+          <Btn key={'btn' + id} onClick={() => deleteContact(id)}>
             Delete
           </Btn>
         </ElementWrapper>

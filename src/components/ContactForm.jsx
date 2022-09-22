@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from './redux/Actions';
+import { useAddContactMutation } from 'services/phonebookApi';
 
 const Inputbox = styled.div`
   position: relative;
@@ -71,30 +70,28 @@ const Btn = styled.button`
   }
 `;
 
-const ContactForm = () => {
-  const dispatch = useDispatch();
-  const state = useSelector(state => state.contacts);
+const ContactForm = ({ contacts }) => {
+  const [addContact] = useAddContactMutation();
 
   const handleSubmit = evt => {
     const form = evt.target;
     const name = form.name.value;
-    const number = form.number.value;
+    const phone = form.number.value;
 
     evt.preventDefault();
 
-    for (const contact of state) {
+    for (const contact of contacts) {
       if (contact.name === name)
         return alert(
-          `${name} is already in your contacts with the phone number ${contact.number}`
+          `${name} is already in your contacts with the phone number ${contact.phone}`
         );
 
-      if (contact.number === number)
+      if (contact.phone === phone)
         return alert(
-          `${number} is already in your contacts with the name ${contact.name}`
+          `${phone} is already in your contacts with the name ${contact.name}`
         );
     }
-
-    dispatch(addContact({ name, number }));
+    addContact({ name, phone });
     form.reset();
   };
 
