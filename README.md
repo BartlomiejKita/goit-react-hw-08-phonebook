@@ -27,6 +27,8 @@
 
 - configureStore(), createAction(), createReducer() 
 
+- [mockapi.io](https://mockapi.io/docs)
+
  
 ### Criteria
 [criteria](https://github.com/goitacademy/react-homework/blob/master/homework-07/README.pl.md )
