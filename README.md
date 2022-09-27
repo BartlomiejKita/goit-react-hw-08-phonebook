@@ -1,9 +1,9 @@
-# HW 07
+# HW 08
 
 
 ## General info
 
-:boom: An application to store contacts in the phone book. It is refactoring of HW 06 by using RTK Query.
+:boom: An application to store contacts in the phone book. It is refactoring of HW 07 by private routing and JWT (JSON Web Token).
 
 
 ## Technologies
@@ -27,9 +27,9 @@
 
 - configureStore(), createAction(), createReducer() 
 
-- [mockapi.io](https://mockapi.io/docs)
+- [Connections API](https://connections-api.herokuapp.com/docs/)
 
  
 ### Criteria
-[criteria](https://github.com/goitacademy/react-homework/blob/master/homework-07/README.pl.md )
+[criteria](https://github.com/goitacademy/react-homework/blob/master/homework-08/README.pl.md )
 
