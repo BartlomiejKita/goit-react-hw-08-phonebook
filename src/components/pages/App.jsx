@@ -1,18 +1,19 @@
-import ContactForm from './ContactForm';
-import FilteredUsers from './FilteredUsers';
-import ContactList from './ContactList';
+import ContactForm from '../ContactForm';
+import FilteredUsers from '../FilteredUsers';
+import ContactList from '../ContactList';
 import styled from 'styled-components';
 import { useGetContactsQuery } from 'services/phonebookApi';
-import Notification from './Notification';
+import Notification from '../Notification';
 import isEmpty from 'utilities/isEmpty';
-import Loader from './Loader';
+import Loader from '../Loader';
 
 const Center = styled.div`
-  margin-top: 50px;
+  margin-bottom: 25px;
   position: relative;
   padding: 50px 50px;
   background: #fff;
   border-radius: 10px;
+  box-shadow: 0 4px 2px 1px black;
 `;
 
 const MainHeader = styled.h1`
