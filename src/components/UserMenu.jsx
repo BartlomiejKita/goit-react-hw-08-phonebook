@@ -23,11 +23,11 @@ const Nav = styled.div`
   border-radius: 10px;
 `;
 
-const Navbar = () => {
+const UserMenu = () => {
   return (
     <>
       <Nav>
-        <StyledLink to="/">Home </StyledLink>
+        <StyledLink to="/" end>Home </StyledLink>
         <StyledLink to="/register">Sign up </StyledLink>
         <StyledLink to="/login">Log in</StyledLink>
         <StyledLink to="/contacts">Contacts</StyledLink>
@@ -39,4 +39,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default UserMenu;

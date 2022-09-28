@@ -109,6 +109,18 @@ const RegistrationPage = () => {
         <Inputbox>
           <label>
             <Input
+              type="text"
+              name="name"
+              title="Please enter your name"
+              required
+              placeholder=" "
+            />
+            <Span>Name</Span>
+          </label>
+        </Inputbox>
+        <Inputbox>
+          <label>
+            <Input
               type="password"
               name="password"
               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"

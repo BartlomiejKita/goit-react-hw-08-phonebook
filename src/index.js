@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { store } from 'components/redux/Store';
 import NotFound from 'components/pages/NotFound';
 import App from 'components/pages/App';
-import Navbar from 'components/NavBar';
+import UserMenu from 'components/UserMenu';
 import HomePage from 'components/pages/HomePage';
 import RegistrationPage from 'components/pages/RegistrationPage';
 import LoginPage from 'components/pages/LoginPage';
@@ -17,7 +17,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navbar />}>
+          <Route path="/" element={<UserMenu />}>
             <Route index element={<HomePage />} />
             <Route path="register" element={<RegistrationPage />} />
             <Route path="login" element={<LoginPage />} />

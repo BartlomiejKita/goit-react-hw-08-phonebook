@@ -59,9 +59,10 @@ const ContactList = ({ contacts }) => {
       {filteredContacts.map(({ id, name, phone }) => (
         <ElementWrapper key={'el' + id}>
           <List key={id}>
-            {name}
-            <br />
-            {phone}
+            <a href={`tel:${phone}`}>
+              {name} <br />
+              {phone}
+            </a>
           </List>
           <Btn key={'btn' + id} onClick={() => deleteContact(id)}>
             Delete
