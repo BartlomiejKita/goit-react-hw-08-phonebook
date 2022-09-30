@@ -18,6 +18,7 @@ const StyledLink = styled(NavLink)`
 const Nav = styled.div`
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   box-shadow: 0 4px 2px 1px black;
   padding: 15px 0;
   margin: 25px auto;
@@ -27,6 +28,8 @@ const Nav = styled.div`
 `;
 
 const StyledBtn = styled.button`
+  padding: 0;
+  font-family: inherit;
   font-weight: bold;
   font-size: 20px;
   color: black;
