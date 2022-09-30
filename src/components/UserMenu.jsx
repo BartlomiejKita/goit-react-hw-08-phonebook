@@ -1,7 +1,10 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Suspense, useEffect } from 'react';
 import Loader from 'components/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLogoutMutation } from 'services/phonebookApi';
+import { deleteToken } from './redux/Actions';
 
 const StyledLink = styled(NavLink)`
   font-weight: bold;
@@ -23,7 +26,23 @@ const Nav = styled.div`
   border-radius: 10px;
 `;
 
+const StyledBtn = styled.button`
+  font-weight: bold;
+  font-size: 20px;
+  color: black;
+  border: none;
+  background: none;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 const UserMenu = () => {
+  const token = useSelector(state => state.token);
+  const [logout] = useLogoutMutation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     window.onbeforeunload = () => {
       return true;
@@ -34,15 +53,21 @@ const UserMenu = () => {
     };
   }, []);
 
+  const handleLogout = () => {
+    logout(token).then(() => navigate('/'));
+    dispatch(deleteToken());
+  };
+
   return (
     <>
       <Nav>
         <StyledLink to="/" end>
           Home
         </StyledLink>
-        <StyledLink to="/register">Sign up </StyledLink>
-        <StyledLink to="/login">Log in</StyledLink>
-        <StyledLink to="/contacts">Contacts</StyledLink>
+        {!token && <StyledLink to="/register">Sign up </StyledLink>}
+        {!token && <StyledLink to="/login">Log in</StyledLink>}
+        {token && <StyledLink to="/contacts">Contacts</StyledLink>}
+        {token && <StyledBtn onClick={handleLogout}>Log out</StyledBtn>}
       </Nav>
       <Suspense fallback={<Loader />}>
         <Outlet />

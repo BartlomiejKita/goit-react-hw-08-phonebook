@@ -11,6 +11,7 @@ import UserMenu from 'components/UserMenu';
 import HomePage from 'components/pages/HomePage';
 import RegistrationPage from 'components/pages/RegistrationPage';
 import LoginPage from 'components/pages/LoginPage';
+import PrivateRoute from 'components/PrivateRoute';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -21,7 +22,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route index element={<HomePage />} />
             <Route path="register" element={<RegistrationPage />} />
             <Route path="login" element={<LoginPage />} />
-            <Route path="contacts" element={<App />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="contacts" element={<App />} />
+            </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -29,4 +32,3 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </Provider>
   </React.StrictMode>
 );
-

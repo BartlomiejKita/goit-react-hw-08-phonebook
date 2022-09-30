@@ -131,6 +131,7 @@ const LoginPage = () => {
                 title="Please enter your e-mail address (example: characters@characters.domain)"
                 required
                 placeholder=" "
+                // value="tester123@gmail.com"
               />
               <Span>Email</Span>
             </label>
@@ -144,6 +145,7 @@ const LoginPage = () => {
                 title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters"
                 required
                 placeholder=" "
+                // value="Tester123!GoIT"
               />
               <Span>Password</Span>
             </label>

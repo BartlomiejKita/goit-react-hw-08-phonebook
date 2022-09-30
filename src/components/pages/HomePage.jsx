@@ -23,7 +23,7 @@ const MainHeader = styled.h1`
 `;
 
 const Paragraph = styled.p`
-  text-align: right;
+  text-align: center;
 `;
 
 const StyledLink = styled(Link)`

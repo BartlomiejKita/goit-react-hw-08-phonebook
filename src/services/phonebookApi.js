@@ -45,7 +45,7 @@ export const phonebookApi = createApi({
     }),
     getContacts: builder.query({
       query: () => 'contacts',
-      providesTags: ['Contacts'],
+      providesTags: ['Contacts', 'User'],
     }),
     addContact: builder.mutation({
       query: contact => ({
