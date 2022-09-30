@@ -1,11 +1,17 @@
+import { addToken } from 'components/redux/Actions';
+import { useDispatch } from 'react-redux';
+import { useLoginMutation } from 'services/phonebookApi';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Center = styled.div`
   position: relative;
-  padding: 50px 50px;
+  padding: 50px 25px;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 2px 1px black;
+  max-width: 350px;
+  margin: 0 auto;
 `;
 
 const MainHeader = styled.h1`
@@ -21,7 +27,7 @@ const MainHeader = styled.h1`
 
 const Inputbox = styled.div`
   position: relative;
-  width: 300px;
+  max-width: 100%;
   height: 50px;
   margin-bottom: 50px;
   &:last-child {
@@ -89,11 +95,33 @@ const Btn = styled.button`
 `;
 
 const LoginPage = () => {
+  const [login] = useLoginMutation();
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+  const handleSubmit = evt => {
+    const form = evt.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    const credentials = { email, password };
+    evt.preventDefault();
+    login(credentials)
+      .unwrap()
+      .then(data => dispatch(addToken(data)))
+      .then(() => navigate('/contacts'))
+      .catch(() => {
+        alert('Please check your email address or password');
+      });
+
+    evt.target.reset();
+  };
+
   return (
     <>
       <Center>
         <MainHeader>Log in</MainHeader>
-        <form onSubmit={null}>
+        <form onSubmit={handleSubmit}>
           <Inputbox>
             <label>
               <Input

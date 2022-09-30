@@ -3,7 +3,7 @@ import { useAddContactMutation } from 'services/phonebookApi';
 
 const Inputbox = styled.div`
   position: relative;
-  width: 300px;
+  max-width: 100%;
   height: 50px;
   margin-bottom: 50px;
   &:last-child {
@@ -76,22 +76,22 @@ const ContactForm = ({ contacts }) => {
   const handleSubmit = evt => {
     const form = evt.target;
     const name = form.name.value;
-    const phone = form.number.value;
+    const number = form.number.value;
 
     evt.preventDefault();
 
     for (const contact of contacts) {
       if (contact.name === name)
         return alert(
-          `${name} is already in your contacts with the phone number ${contact.phone}`
+          `${name} is already in your contacts with the phone number ${contact.number}`
         );
 
-      if (contact.phone === phone)
+      if (contact.number === number)
         return alert(
-          `${phone} is already in your contacts with the name ${contact.name}`
+          `${number} is already in your contacts with the name ${contact.name}`
         );
     }
-    addContact({ name, phone });
+    addContact({ name, number });
     form.reset();
   };
 

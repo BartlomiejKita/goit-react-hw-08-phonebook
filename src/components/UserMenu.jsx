@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import Loader from 'components/Loader';
 
 const StyledLink = styled(NavLink)`
@@ -19,15 +19,27 @@ const Nav = styled.div`
   padding: 15px 0;
   margin: 25px auto;
   background: white;
-  width: 400px;
+  max-width: 400px;
   border-radius: 10px;
 `;
 
 const UserMenu = () => {
+  useEffect(() => {
+    window.onbeforeunload = () => {
+      return true;
+    };
+
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, []);
+
   return (
     <>
       <Nav>
-        <StyledLink to="/" end>Home </StyledLink>
+        <StyledLink to="/" end>
+          Home
+        </StyledLink>
         <StyledLink to="/register">Sign up </StyledLink>
         <StyledLink to="/login">Log in</StyledLink>
         <StyledLink to="/contacts">Contacts</StyledLink>

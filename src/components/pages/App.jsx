@@ -8,9 +8,10 @@ import isEmpty from 'utilities/isEmpty';
 import Loader from '../Loader';
 
 const Center = styled.div`
-  margin-bottom: 25px;
+  max-width: 350px;
+  margin: 0 auto 25px auto;
   position: relative;
-  padding: 50px 50px;
+  padding: 50px 25px;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 2px 1px black;

@@ -56,12 +56,12 @@ const ContactList = ({ contacts }) => {
 
   return (
     <ul>
-      {filteredContacts.map(({ id, name, phone }) => (
+      {filteredContacts.map(({ id, name, number }) => (
         <ElementWrapper key={'el' + id}>
           <List key={id}>
-            <a href={`tel:${phone}`}>
+            <a href={`tel:${number}`}>
               {name} <br />
-              {phone}
+              {number}
             </a>
           </List>
           <Btn key={'btn' + id} onClick={() => deleteContact(id)}>

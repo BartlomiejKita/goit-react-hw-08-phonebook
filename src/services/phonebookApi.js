@@ -3,17 +3,53 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const phonebookApi = createApi({
   reducerPath: 'contacts',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://6329ed064c626ff832cde4e6.mockapi.io/',
+    baseUrl: 'https://connections-api.herokuapp.com/',
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().token;
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`);
+      }
+
+      return headers;
+    },
   }),
-  tagTypes: ['Contacts'],
+  tagTypes: ['Contacts', 'User'],
   endpoints: builder => ({
+    signup: builder.mutation({
+      query: values => ({
+        url: 'users/signup',
+        method: 'POST',
+        body: values,
+      }),
+      invalidatesTags: ['User'],
+    }),
+    login: builder.mutation({
+      query: values => ({
+        url: 'users/login',
+        method: 'POST',
+        body: values,
+      }),
+      invalidatesTags: ['User'],
+    }),
+    logout: builder.mutation({
+      query: values => ({
+        url: 'users/logout',
+        method: 'POST',
+        body: values,
+      }),
+    }),
+    currentUser: builder.query({
+      query: () => ({
+        url: 'users/current',
+      }),
+    }),
     getContacts: builder.query({
-      query: () => 'contacts/',
+      query: () => 'contacts',
       providesTags: ['Contacts'],
     }),
     addContact: builder.mutation({
       query: contact => ({
-        url: 'contacts/',
+        url: 'contacts',
         method: 'POST',
         body: contact,
       }),
@@ -30,13 +66,11 @@ export const phonebookApi = createApi({
 });
 
 export const {
+  useCurrentUserQuery,
+  useLoginMutation,
+  useSignupMutation,
+  useLogoutMutation,
   useGetContactsQuery,
   useAddContactMutation,
   useDeleteContactMutation,
 } = phonebookApi;
-
-
-
-
-// api / auth / register;
-// api / auth / login;
