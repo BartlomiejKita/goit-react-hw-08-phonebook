@@ -42,6 +42,7 @@ export const phonebookApi = createApi({
       query: () => ({
         url: 'users/current',
       }),
+      providesTags: ['User'],
     }),
     getContacts: builder.query({
       query: () => 'contacts',
