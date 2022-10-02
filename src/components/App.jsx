@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import { Suspense, useEffect } from 'react';
+import { Suspense } from 'react';
 import Loader from 'components/Loader';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -30,16 +30,6 @@ const Nav = styled.div`
 
 const App = () => {
   const token = useSelector(state => state.token);
-
-  useEffect(() => {
-    window.onbeforeunload = () => {
-      return true;
-    };
-
-    return () => {
-      window.onbeforeunload = null;
-    };
-  }, []);
 
   return (
     <>
