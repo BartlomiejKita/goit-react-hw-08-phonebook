@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { addToken } from 'components/redux/Actions';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const Center = styled.div`
   position: relative;
@@ -112,7 +113,7 @@ const RegistrationPage = () => {
       .then(data => dispatch(addToken(data)))
       .then(() => navigate('/contacts'))
       .catch(() => {
-        alert('User with this email address already exists');
+        toast.warn('User with this email address already exists');
       });
 
     evt.target.reset();

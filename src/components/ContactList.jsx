@@ -49,7 +49,7 @@ const ContactList = ({ contacts }) => {
           contact.name.toLowerCase().includes(normalizedFilter)
         )
         .sort((a, b) => a.name.localeCompare(b.name)),
-    [normalizedFilter, contacts,]
+    [normalizedFilter, contacts]
   );
 
   const [deleteContact] = useDeleteContactMutation();

@@ -1,10 +1,11 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import { Suspense, useEffect } from 'react';
 import Loader from 'components/Loader';
-import { useDispatch, useSelector } from 'react-redux';
-import { useLogoutMutation } from 'services/phonebookApi';
-import { deleteToken } from './redux/Actions';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+import Logout from './Logout';
+import { useSelector } from 'react-redux';
 
 const StyledLink = styled(NavLink)`
   font-weight: bold;
@@ -27,24 +28,8 @@ const Nav = styled.div`
   border-radius: 10px;
 `;
 
-const StyledBtn = styled.button`
-  padding: 0;
-  font-family: inherit;
-  font-weight: bold;
-  font-size: 20px;
-  color: black;
-  border: none;
-  background: none;
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
-const UserMenu = () => {
+const App = () => {
   const token = useSelector(state => state.token);
-  const [logout] = useLogoutMutation();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     window.onbeforeunload = () => {
@@ -56,11 +41,6 @@ const UserMenu = () => {
     };
   }, []);
 
-  const handleLogout = () => {
-    logout(token).then(() => navigate('/'));
-    dispatch(deleteToken());
-  };
-
   return (
     <>
       <Nav>
@@ -70,13 +50,14 @@ const UserMenu = () => {
         {!token && <StyledLink to="/register">Sign up </StyledLink>}
         {!token && <StyledLink to="/login">Log in</StyledLink>}
         {token && <StyledLink to="/contacts">Contacts</StyledLink>}
-        {token && <StyledBtn onClick={handleLogout}>Log out</StyledBtn>}
+        {token && <Logout />}
       </Nav>
       <Suspense fallback={<Loader />}>
         <Outlet />
       </Suspense>
+      <ToastContainer autoClose={3000} />
     </>
   );
 };
 
-export default UserMenu;
+export default App;

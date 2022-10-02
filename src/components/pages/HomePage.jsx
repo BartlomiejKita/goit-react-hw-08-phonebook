@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import WelcomeBack from 'components/WelcomeBack';
 
 const Center = styled.div`
   position: relative;
@@ -31,14 +33,19 @@ const StyledLink = styled(Link)`
 `;
 
 const HomePage = () => {
+  const token = useSelector(state => state.token);
+
   return (
     <Center>
       <MainHeader>Phonebook</MainHeader>
-      <Paragraph>
-        Phonebook allows you to save, delete and view your phone contacts at any
-        time. Please <StyledLink to="/register">Sign up </StyledLink>or{' '}
-        <StyledLink to="/login">Log in</StyledLink> to get started.
-      </Paragraph>
+      {!token && (
+        <Paragraph>
+          Phonebook allows you to save, delete and view your phone contacts at
+          any time. Please <StyledLink to="/register">Sign up </StyledLink>or{' '}
+          <StyledLink to="/login">Log in</StyledLink> to get started.
+        </Paragraph>
+      )}
+      {token && <WelcomeBack />}
     </Center>
   );
 };

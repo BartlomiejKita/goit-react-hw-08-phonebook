@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useLoginMutation } from 'services/phonebookApi';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
 
 const Center = styled.div`
   position: relative;
@@ -111,7 +112,7 @@ const LoginPage = () => {
       .then(data => dispatch(addToken(data)))
       .then(() => navigate('/contacts'))
       .catch(() => {
-        alert('Please check your email address or password');
+        toast.warn('Please check your email address or password');
       });
 
     evt.target.reset();
@@ -131,7 +132,7 @@ const LoginPage = () => {
                 title="Please enter your e-mail address (example: characters@characters.domain)"
                 required
                 placeholder=" "
-                value="tester123@gmail.com"
+                defaultValue="tester123@gmail.com"
               />
               <Span>Email</Span>
             </label>
@@ -145,7 +146,7 @@ const LoginPage = () => {
                 title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters"
                 required
                 placeholder=" "
-                value="Tester123!GoIT"
+                defaultValue="Tester123!GoIT"
               />
               <Span>Password</Span>
             </label>

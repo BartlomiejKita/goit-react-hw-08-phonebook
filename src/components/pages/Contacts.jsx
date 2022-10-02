@@ -39,7 +39,7 @@ const SecondHeader = styled.h2`
   padding-left: 10px;
 `;
 
-const App = () => {
+const Contacts = () => {
   const {
     data: contacts,
     isLoading,
@@ -73,4 +73,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Contacts;

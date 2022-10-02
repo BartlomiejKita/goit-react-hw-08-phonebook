@@ -6,8 +6,8 @@ import { Provider } from 'react-redux';
 
 import { store } from 'components/redux/Store';
 import NotFound from 'components/pages/NotFound';
-import App from 'components/pages/App';
-import UserMenu from 'components/UserMenu';
+import Contacts from 'components/pages/Contacts';
+import App from 'components/App';
 import HomePage from 'components/pages/HomePage';
 import RegistrationPage from 'components/pages/RegistrationPage';
 import LoginPage from 'components/pages/LoginPage';
@@ -18,12 +18,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<UserMenu />}>
+          <Route path="/" element={<App />}>
             <Route index element={<HomePage />} />
             <Route path="register" element={<RegistrationPage />} />
             <Route path="login" element={<LoginPage />} />
             <Route element={<PrivateRoute />}>
-              <Route path="contacts" element={<App />} />
+              <Route path="contacts" element={<Contacts />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
