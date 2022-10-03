@@ -38,6 +38,9 @@ const SecondHeader = styled.h2`
   font-weight: bold;
   padding-left: 10px;
 `;
+const SpinnerWrapper = styled.div`
+  margin: 10px 0 0 100px;
+`;
 
 const Contacts = () => {
   const {
@@ -51,7 +54,11 @@ const Contacts = () => {
   let content;
 
   if (isLoading) {
-    content = <Loader />;
+    content = (
+      <SpinnerWrapper>
+        <Loader />
+      </SpinnerWrapper>
+    );
   } else if (isSuccess && !isEmpty(contacts)) {
     content = <ContactList contacts={contacts} />;
   } else if (isSuccess && isEmpty(contacts)) {

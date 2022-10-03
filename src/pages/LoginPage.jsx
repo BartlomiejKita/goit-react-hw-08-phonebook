@@ -111,13 +111,13 @@ const LoginPage = () => {
     await login(credentials)
       .unwrap()
       .then(({ token }) => Cookies.set('token', token))
-      .then(() => navigate('/contacts'))
       .catch(() => {
         toast.warn('Please check your email address or password');
       });
 
     const token = Cookies.get('token');
     dispatch(addToken(token));
+    navigate('/contacts');
 
     form.reset();
   };
@@ -156,7 +156,7 @@ const LoginPage = () => {
             </label>
           </Inputbox>
           <Inputbox>
-            <Btn type="submit">Sign up</Btn>
+            <Btn type="submit">Log in</Btn>
           </Inputbox>
         </form>
       </Center>

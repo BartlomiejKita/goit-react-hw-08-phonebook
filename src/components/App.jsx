@@ -29,6 +29,13 @@ const Nav = styled.div`
   border-radius: 10px;
 `;
 
+const SpinnerWrapper = styled.div`
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-40%, -50%);
+`;
+
 const App = () => {
   const token = useSelector(state => state.token);
 
@@ -43,7 +50,13 @@ const App = () => {
         {token && <StyledLink to="/contacts">Contacts</StyledLink>}
         {token && <Logout />}
       </Nav>
-      <Suspense fallback={<Loader />}>
+      <Suspense
+        fallback={
+          <SpinnerWrapper>
+            <Loader />
+          </SpinnerWrapper>
+        }
+      >
         <Outlet />
       </Suspense>
       <Cookie />
