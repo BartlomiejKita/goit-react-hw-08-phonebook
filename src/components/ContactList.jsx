@@ -16,16 +16,14 @@ const List = styled.li`
 
 const Btn = styled.button`
   cursor: pointer;
-  border: 2px solid #000;
+  border: 2px solid #fff;
   outline: none;
-  background: none;
   padding: 6px;
   border-radius: 10px;
   font-size: 1em;
   width: 30%;
   background: dodgerblue;
   color: #fff;
-  border: #fff;
   &:hover {
     background: linear-gradient(45deg, greenyellow, dodgerblue);
   }

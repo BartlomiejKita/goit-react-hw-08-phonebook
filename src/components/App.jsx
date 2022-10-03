@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Logout from './Logout';
 import { useSelector } from 'react-redux';
+import Cookie from './Cookie';
 
 const StyledLink = styled(NavLink)`
   font-weight: bold;
@@ -45,6 +46,7 @@ const App = () => {
       <Suspense fallback={<Loader />}>
         <Outlet />
       </Suspense>
+      <Cookie />
       <ToastContainer autoClose={3000} />
     </>
   );
