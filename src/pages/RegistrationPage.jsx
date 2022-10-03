@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { addToken } from 'components/redux/Actions';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 const Center = styled.div`
   position: relative;
@@ -100,7 +101,7 @@ const RegistrationPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleSubmit = evt => {
+  const handleSubmit = async evt => {
     const form = evt.target;
     const name = form.name.value;
     const email = form.email.value;
@@ -108,15 +109,17 @@ const RegistrationPage = () => {
 
     const credentials = { name, email, password };
     evt.preventDefault();
-    signup(credentials)
+    await signup(credentials)
       .unwrap()
-      .then(data => dispatch(addToken(data)))
+      .then(({ token }) => Cookies.set('token', token))
       .then(() => navigate('/contacts'))
       .catch(() => {
         toast.warn('User with this email address already exists');
       });
+    const token = Cookies.get('token');
+    dispatch(addToken(token));
 
-    evt.target.reset();
+    form.reset();
   };
 
   return (
@@ -153,8 +156,8 @@ const RegistrationPage = () => {
             <Input
               type="password"
               name="password"
-              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
-              title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+              title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
               required
               placeholder=" "
             />

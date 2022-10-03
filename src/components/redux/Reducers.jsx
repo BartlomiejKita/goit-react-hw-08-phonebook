@@ -1,9 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { filterContacts, addToken, deleteToken } from './Actions';
+import Cookies from 'js-cookie';
+
 
 const initialState = {
   filter: '',
-  token: '',
+  token: Cookies.get('token') || '',
 };
 
 export const filterReducer = createReducer(initialState.filter, builder => {
@@ -15,9 +17,9 @@ export const filterReducer = createReducer(initialState.filter, builder => {
 export const tokenReducer = createReducer(initialState.token, builder => {
   builder
     .addCase(addToken, (_, { payload }) => {
-      return payload.token;
+      return payload;
     })
     .addCase(deleteToken, (state, { payload }) => {
-      return initialState.token;
+      return '';
     });
 });

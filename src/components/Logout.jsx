@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLogoutMutation } from 'services/phonebookApi';
 import { deleteToken } from './redux/Actions';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const StyledBtn = styled.button`
   padding: 0;
@@ -25,8 +26,9 @@ const Logout = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    logout(token).then(() => navigate('/'));
-    dispatch(deleteToken());
+    Cookies.remove('token');
+    logout(token).then(dispatch(deleteToken()));
+    navigate('/');
   };
 
   const {

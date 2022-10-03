@@ -5,12 +5,12 @@ import './index.css';
 import { Provider } from 'react-redux';
 
 import { store } from 'components/redux/Store';
-import NotFound from 'components/pages/NotFound';
-import Contacts from 'components/pages/Contacts';
+import NotFound from 'pages/NotFound';
+import Contacts from 'pages/Contacts';
 import App from 'components/App';
-import HomePage from 'components/pages/HomePage';
-import RegistrationPage from 'components/pages/RegistrationPage';
-import LoginPage from 'components/pages/LoginPage';
+import HomePage from 'pages/HomePage';
+import RegistrationPage from 'pages/RegistrationPage';
+import LoginPage from 'pages/LoginPage';
 import PrivateRoute from 'components/PrivateRoute';
 
 ReactDOM.createRoot(document.getElementById('root')).render(

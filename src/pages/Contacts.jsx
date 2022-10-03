@@ -1,11 +1,11 @@
-import ContactForm from '../ContactForm';
-import FilteredUsers from '../FilteredUsers';
-import ContactList from '../ContactList';
+import ContactForm from '../components/ContactForm';
+import FilteredUsers from '../components/FilteredUsers';
+import ContactList from '../components/ContactList';
 import styled from 'styled-components';
 import { useGetContactsQuery } from 'services/phonebookApi';
-import Notification from '../Notification';
+import Notification from '../components/Notification';
 import isEmpty from 'utilities/isEmpty';
-import Loader from '../Loader';
+import Loader from '../components/Loader';
 
 const Center = styled.div`
   max-width: 350px;

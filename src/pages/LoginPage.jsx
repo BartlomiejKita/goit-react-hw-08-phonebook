@@ -4,6 +4,7 @@ import { useLoginMutation } from 'services/phonebookApi';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 const Center = styled.div`
   position: relative;
@@ -98,24 +99,27 @@ const Btn = styled.button`
 const LoginPage = () => {
   const [login] = useLoginMutation();
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
-  const handleSubmit = evt => {
+
+  const handleSubmit = async evt => {
     const form = evt.target;
     const email = form.email.value;
     const password = form.password.value;
 
     const credentials = { email, password };
     evt.preventDefault();
-    login(credentials)
+    await login(credentials)
       .unwrap()
-      .then(data => dispatch(addToken(data)))
+      .then(({ token }) => Cookies.set('token', token))
       .then(() => navigate('/contacts'))
       .catch(() => {
         toast.warn('Please check your email address or password');
       });
 
-    evt.target.reset();
+    const token = Cookies.get('token');
+    dispatch(addToken(token));
+
+    form.reset();
   };
 
   return (
