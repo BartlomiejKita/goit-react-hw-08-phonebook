@@ -103,8 +103,10 @@ const LoginPage = () => {
 
   const handleSubmit = async evt => {
     const form = evt.target;
-    const email = form.email.value;
-    const password = form.password.value;
+    const {
+      email: { value: email },
+      password: { value: password },
+    } = form;
 
     const credentials = { email, password };
     evt.preventDefault();

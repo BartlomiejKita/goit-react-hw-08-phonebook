@@ -103,9 +103,11 @@ const RegistrationPage = () => {
 
   const handleSubmit = async evt => {
     const form = evt.target;
-    const name = form.name.value;
-    const email = form.email.value;
-    const password = form.password.value;
+    const {
+      name: { value: name },
+      email: { value: email },
+      password: { value: password },
+    } = form;
 
     const credentials = { name, email, password };
     evt.preventDefault();
